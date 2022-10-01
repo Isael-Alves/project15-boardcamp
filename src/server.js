@@ -1,34 +1,18 @@
-import express, { json } from "express";
-import pkg from "pg";
+import express, { json }  from "express";
+import cors from 'cors';
 import dotenv from "dotenv";
+import categories from "./routes/categories.Router.js";
 dotenv.config();
 
-const { Pool } = pkg;
-
-const connection = new Pool({
-  host: "localhost",
-  port: 5432,
-  user: "postgres",
-  password: "postgres",
-  database: "boardcamp",
-});
 
 const server = express();
 server.use(json());
+server.use(cors());
+
+
 
 //categorias
-server.get("/categories", async (req, res) => {
-  const categories = await connection.query("SELECT * FROM categories");
-
-  res.send(categories.rows);
-});
-
-server.post("/categories", async (req, res) => {
-  const { name } = req.body;
-
-  console.log(name);
-  res.sendStatus(201);
-});
+server.use(categories);
 
 //Jogos
 server.get("/games", async (req, res) => {
