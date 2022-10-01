@@ -2,6 +2,7 @@ import express, { json }  from "express";
 import cors from 'cors';
 import dotenv from "dotenv";
 import categories from "./routes/categories.Router.js";
+import games from "./routes/games.Router.js"
 dotenv.config();
 
 
@@ -15,18 +16,7 @@ server.use(cors());
 server.use(categories);
 
 //Jogos
-server.get("/games", async (req, res) => {
-  const games = await connection.query("SELECT * FROM games");
-
-  res.send(games.rows);
-});
-
-server.post("/games", async (req, res) => {
-  const { name } = req.body;
-
-  console.log(name);
-  res.sendStatus(201);
-});
+server.use(games);
 
 //Clientes
 server.get("/customers", async (req, res) => {
