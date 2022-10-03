@@ -3,14 +3,13 @@ import cors from 'cors';
 import dotenv from "dotenv";
 import categories from "./routes/categories.Router.js";
 import games from "./routes/games.Router.js"
+import customers from "./routes/customers.Router.js"
 dotenv.config();
 
 
 const server = express();
 server.use(json());
 server.use(cors());
-
-
 
 //categorias
 server.use(categories);
@@ -19,25 +18,7 @@ server.use(categories);
 server.use(games);
 
 //Clientes
-server.get("/customers", async (req, res) => {
-  const customers = await connection.query("SELECT * FROM customers");
-
-  res.send(customers.rows);
-});
-
-server.post("/customers", async (req, res) => {
-  const { name } = req.body;
-
-  console.log(name);
-  res.sendStatus(201);
-});
-
-server.put("/customers/:id", async (req, res) => {
-  const { id } = req.params;
-
-  console.log(id);
-  res.sendStatus(200);
-});
+server.use(customers);
 
 //Aluguéis
 server.get("/rentals", async (req, res) => {

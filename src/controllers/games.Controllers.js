@@ -4,12 +4,13 @@ async function getGames(req, res) {
   const { name } = req.query;
 
   try {
-    const select = 'SELECT games.*, categories.name AS "categoryName" FROM games JOIN categories ON categories.id=games."categoryId"';
+    const select =
+      'SELECT games.*, categories.name AS "categoryName" FROM games JOIN categories ON categories.id=games."categoryId"';
     const paramsSearch = [];
     let whereClause = "";
 
     if (name) {
-        paramsSearch.push(`${name}%`);
+      paramsSearch.push(`${name}%`);
       whereClause += `WHERE games.name ILIKE $${paramsSearch.length}`;
 
       const result = await connection.query(
