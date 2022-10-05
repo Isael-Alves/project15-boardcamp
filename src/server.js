@@ -2,8 +2,9 @@ import express, { json }  from "express";
 import cors from 'cors';
 import dotenv from "dotenv";
 import categories from "./routes/categories.Router.js";
-import games from "./routes/games.Router.js"
-import customers from "./routes/customers.Router.js"
+import games from "./routes/games.Router.js";
+import customers from "./routes/customers.Router.js";
+import rentals from "./routes/rentals.Router.js";
 dotenv.config();
 
 
@@ -21,32 +22,7 @@ server.use(games);
 server.use(customers);
 
 //Aluguéis
-server.get("/rentals", async (req, res) => {
-  const rentals = await connection.query("SELECT * FROM rentals");
-
-  res.send(rentals.rows);
-});
-
-server.post("/rentals", async (req, res) => {
-  const { name } = req.body;
-
-  console.log(name);
-  res.sendStatus(201);
-});
-
-server.post("/rentals/:id/return", async (req, res) => {
-  const { id } = req.params;
-
-  console.log(id);
-  res.sendStatus(200);
-});
-
-server.delete("/rentals/:id", async (req, res) => {
-  const { id } = req.params;
-
-  console.log(id);
-  res.sendStatus(200);
-});
+server.use(rentals);
 
 server.listen(process.env.PORT, () => {
   console.log("Server running oh port " + process.env.PORT);
